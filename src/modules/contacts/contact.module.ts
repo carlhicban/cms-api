@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ContactSchema, Contact } from "./schemas/Contact.schema";
 import { ContactController } from "./contact.controller";
+import { ContactService } from "./contact.service";
 
 
 @Module({
@@ -12,7 +13,7 @@ import { ContactController } from "./contact.controller";
         }])
     ],
     providers: [
-        
+        ContactService
     ],
     controllers: [
         ContactController
