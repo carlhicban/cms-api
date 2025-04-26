@@ -4,6 +4,7 @@ import { Contact } from "./schemas/Contact.schema";
 import { Model } from "mongoose";
 import { CreateContactDto } from "./dtos/create-contact.dto";
 import { UpdateContactDto } from "./dtos/update-contact.dto";
+import { SearchContactsDto } from "./dtos/search-contact.dto";
 
 @Injectable()
 export class ContactService{
@@ -33,4 +34,50 @@ export class ContactService{
 
         return updateContact;
     }
+
+    async searchContacts(query: SearchContactsDto) {
+        const { name, city, email, sortBy, sortOrder, page, limit, createdAfter } = query;
+    
+        const filter: any = {};
+    
+        if (name) {
+          filter.name = { $regex: name, $options: 'i' }; // partial match
+        }
+    
+        if (city) {
+          filter.city = city; // exact match
+        }
+    
+        if (email) {
+          filter.email = { $regex: email, $options: 'i' }; // partial match
+        }
+    
+        if (createdAfter) {
+          filter.createdAt = { $gt: new Date(createdAfter) };
+        }
+    
+        const sortOption: any = {};
+        sortOption[sortBy] = sortOrder === 'asc' ? 1 : -1;
+    
+        const skip = (page - 1) * limit;
+    
+        const contacts = await this.contactModel
+          .find(filter)
+          .sort(sortOption)
+          .skip(skip)
+          .limit(limit)
+          .exec();
+    
+        const total = await this.contactModel.countDocuments(filter);
+    
+        return {
+          data: contacts,
+          pagination: {
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+          },
+        };
+      }
 }

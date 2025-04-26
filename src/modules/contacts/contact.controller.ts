@@ -1,8 +1,9 @@
-import { Body, Controller, Post, Get, Delete, Param, HttpException, Put } from "@nestjs/common";
+import { Body, Controller, Post, Get, Delete, Param, HttpException, Put, Query } from "@nestjs/common";
 import { CreateContactDto } from "./dtos/create-contact.dto";
 import { ContactService } from "./contact.service";
 import mongoose from "mongoose";
 import { UpdateContactDto } from "./dtos/update-contact.dto";
+import { SearchContactsDto } from "./dtos/search-contact.dto";
 @Controller('contacts')
 export class ContactController{
 
@@ -36,5 +37,10 @@ export class ContactController{
     @Put(":id")
     async updateContact(@Param('id') id:string, @Body() body:UpdateContactDto){
         return this._contactService.updateContact(id, body)
+    }
+
+    @Get('search')
+    async searchContacts(@Query() query: SearchContactsDto) {
+      return this._contactService.searchContacts(query);
     }
 }
