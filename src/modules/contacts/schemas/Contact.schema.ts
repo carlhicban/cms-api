@@ -1,15 +1,15 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 @Schema({timestamps: true})
 export class Contact{
 
-    @Prop()
+    @Prop({required: true})
     name: string;
 
     @Prop()
     title: string;
 
-    @Prop()
+    @Prop({required: true})
     email: string;
 
     @Prop()
@@ -21,3 +21,5 @@ export class Contact{
     @Prop()
     city: string;
 }
+
+export const ContactSchema = SchemaFactory.createForClass(Contact);
