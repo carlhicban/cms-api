@@ -36,48 +36,54 @@ export class ContactService{
     }
 
     async searchContacts(query: SearchContactsDto) {
-        const { name, city, email, sortBy, sortOrder, page, limit, createdAfter } = query;
-    
-        const filter: any = {};
-    
+      const { name, city, email, sortBy, sortOrder, page, limit, createdAfter } = query;
+  
+      const filter: any = {};
+  
+      if (name || email || city) {
+        filter.$or = [];
+      
         if (name) {
-          filter.name = { $regex: name, $options: 'i' };
+          filter.$or.push({ name: { $regex: name, $options: 'i' } });
         }
-    
-        if (city) {
-          filter.city = city;
-        }
-    
+        
         if (email) {
-          filter.email = { $regex: email, $options: 'i' }; 
+          filter.$or.push({ email: { $regex: email, $options: 'i' } });
         }
-    
-        if (createdAfter) {
-          filter.createdAt = { $gt: new Date(createdAfter) };
+      
+        if (city) {
+          filter.$or.push({ city: { $regex: `^${city}$`, $options: 'i' } }); // 👈 exact match, case-insensitive
         }
-    
-        const sortOption: any = {};
-        sortOption[sortBy] = sortOrder === 'asc' ? 1 : -1;
-    
-        const skip = (page - 1) * limit;
-    
-        const contacts = await this.contactModel
-          .find(filter)
-          .sort(sortOption)
-          .skip(skip)
-          .limit(limit)
-          .exec();
-    
-        const total = await this.contactModel.countDocuments(filter);
-    
-        return {
-          data: contacts,
-          pagination: {
-            total,
-            page,
-            limit,
-            totalPages: Math.ceil(total / limit),
-          },
-        };
       }
+      
+      
+  
+      if (createdAfter) {
+        filter.createdAt = { $gt: new Date(createdAfter) };
+      }
+  
+      const sortOption: any = {};
+      sortOption[sortBy] = sortOrder === 'asc' ? 1 : -1;
+  
+      const skip = (page - 1) * limit;
+  
+      const contacts = await this.contactModel
+        .find(filter)
+        .sort(sortOption)
+        .skip(skip)
+        .limit(limit)
+        .exec();
+  
+      const total = await this.contactModel.countDocuments(filter);
+  
+      return {
+        data: contacts,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+      };
+    }
 }
