@@ -41,15 +41,15 @@ export class ContactService{
         const filter: any = {};
     
         if (name) {
-          filter.name = { $regex: name, $options: 'i' }; // partial match
+          filter.name = { $regex: name, $options: 'i' };
         }
     
         if (city) {
-          filter.city = city; // exact match
+          filter.city = city;
         }
     
         if (email) {
-          filter.email = { $regex: email, $options: 'i' }; // partial match
+          filter.email = { $regex: email, $options: 'i' }; 
         }
     
         if (createdAfter) {
