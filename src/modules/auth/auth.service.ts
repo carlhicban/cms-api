@@ -4,6 +4,7 @@ import { SignUpDto } from "./dtos/signup.dto";
 import { randomBytes, scrypt as _scrypt } from "crypto";
 import { promisify } from "util";
 import { SigninDto } from "./dtos/signin.dto";
+import { JwtService } from "@nestjs/jwt";
 
 
 const scrypt = promisify(_scrypt);
@@ -12,7 +13,8 @@ const scrypt = promisify(_scrypt);
 export class AuthService{
     
     constructor(
-        private _userService: UserService
+        private _userService: UserService,
+        private _jwtService: JwtService
     ){}
 
 
@@ -50,6 +52,10 @@ export class AuthService{
 
         if (storedHash !== hash.toString('hex')) throw new BadRequestException('Invalid Credential');
 
-        return user
+        const payload = {sub: user.id, username: user.username}
+
+        return {
+            access_token: await this._jwtService.signAsync(payload)
+        }
     }
 }
