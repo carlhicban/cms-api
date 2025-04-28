@@ -1,5 +1,5 @@
 
-# NestJS Application
+# Contacts Management Application
 
 This is a NestJS application. Follow the instructions below to run the app locally.
 
