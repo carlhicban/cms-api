@@ -37,45 +37,46 @@ export class ContactService{
 
     async searchContacts(query: SearchContactsDto) {
       const { name, city, email, sortBy, sortOrder, page, limit, createdAfter } = query;
-  
+    
       const filter: any = {};
-  
+    
       if (name || email || city) {
         filter.$or = [];
-      
+    
         if (name) {
           filter.$or.push({ name: { $regex: name, $options: 'i' } });
         }
-        
+    
         if (email) {
           filter.$or.push({ email: { $regex: email, $options: 'i' } });
         }
-      
+    
         if (city) {
-          filter.$or.push({ city: { $regex: `^${city}$`, $options: 'i' } }); // 👈 exact match, case-insensitive
+          filter.$or.push({ city: { $regex: `^${city}$`, $options: 'i' } });
         }
       }
-      
-      
-  
+    
       if (createdAfter) {
         filter.createdAt = { $gt: new Date(createdAfter) };
       }
-  
+    
       const sortOption: any = {};
-      sortOption[sortBy] = sortOrder === 'asc' ? 1 : -1;
-  
+      if (sortBy) {
+        sortOption[sortBy] = sortOrder === 'asc' ? 1 : -1;
+      }
+    
       const skip = (page - 1) * limit;
-  
+    
       const contacts = await this.contactModel
         .find(filter)
         .sort(sortOption)
         .skip(skip)
         .limit(limit)
         .exec();
-  
+    
+      
       const total = await this.contactModel.countDocuments(filter);
-  
+    
       return {
         data: contacts,
         pagination: {
@@ -86,4 +87,5 @@ export class ContactService{
         },
       };
     }
+    
 }

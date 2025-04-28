@@ -25,7 +25,7 @@ export class SearchContactsDto {
   sortOrder: 'asc' | 'desc' = 'asc';
 
   @IsOptional()
-  @Type(() => Number) // important for query parsing!
+  @Type(() => Number)
   @IsNumber()
   page: number = 1;
 
