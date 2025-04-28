@@ -22,7 +22,7 @@ import {
         const payload = await this.jwtService.verifyAsync(
           token,
           {
-            secret: 'secret'
+            secret: process.env.JWT_TOKEN
           }
         );
         // 💡 We're assigning the payload to the request object here

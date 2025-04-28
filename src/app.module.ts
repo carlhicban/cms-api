@@ -1,14 +1,25 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ContactModule } from './modules/contacts/contact.module';
 import { UserModule } from './modules/users/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/cms'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+      }),
+      inject: [ConfigService],
+    }),
     ContactModule,
     UserModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [],
   providers: [],
