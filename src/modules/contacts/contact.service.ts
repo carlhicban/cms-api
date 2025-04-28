@@ -55,11 +55,16 @@ export class ContactService{
           filter.$or.push({ city: { $regex: `^${city}$`, $options: 'i' } });
         }
       }
-    
       if (createdAfter) {
-        filter.createdAt = { $gt: new Date(createdAfter) };
+        const startOfDay = new Date(createdAfter);
+        startOfDay.setHours(0, 0, 0, 0); 
+      
+        const endOfDay = new Date(createdAfter);
+        endOfDay.setHours(23, 59, 59, 999); 
+      
+        filter.createdAt = { $gte: startOfDay, $lte: endOfDay };
       }
-    
+      
       const sortOption: any = {};
       if (sortBy) {
         sortOption[sortBy] = sortOrder === 'asc' ? 1 : -1;
