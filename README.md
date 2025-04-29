@@ -33,8 +33,8 @@ npm install
 Create a .env file in the root directory of the project (same level as package.json). Add the following environment variables to the file:
 
 ```bash
-MONGO_URI=<your-mongodb-uri-here>
-JWT_SECRET=<your-secret-token>
+MONGO_URI=mongodb://localhost:27017
+JWT_SECRET=secret
 ```
 
 
@@ -46,7 +46,7 @@ Once the dependencies are installed, you can start the development server with:
 npm run start:dev
 ```
 
-This will start the server at `http://localhost:3000/`. Open the browser and visit this URL to see the app in action.
+This will start the server at `http://localhost:3000/api/v1`. Open the browser and visit this URL to see the app in action.
 
 ## Building the Application
 
