@@ -67,7 +67,30 @@ Once the dependencies are installed, you can start the development server with:
 npm run start:dev
 ```
 
+
 This will start the server at `http://localhost:3000/api/v1`. Open the browser and visit this URL to see the app in action.
+
+API LIST
+POST - Creating contacts
+- http://localhost:3000/api/v1/contacts
+
+Get - Fetching contacts
+- http://localhost:3000/api/v1/contacts
+
+PUT - Updadte contacts
+- http://localhost:3000/api/v1/${id}
+
+Delete - Delete contacts
+- http://localhost:3000/api/v1/${id}
+
+Signin - POST
+ - Fetching contacts
+- http://localhost:3000/api/v1/auth/signin
+
+Register - POST
+- http://localhost:3000/api/v1/auth/signup
+
+
 
 ## Building the Application
 
