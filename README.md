@@ -28,6 +28,27 @@ Run the following command to install the necessary dependencies:
 npm install
 ```
 
+# 🧭 MongoDB Compass Setup Guide
+
+This guide will help you install **MongoDB Compass**, create a connection, and copy the connection string.
+
+---
+
+## 📥 1. Install MongoDB Compass
+
+1. Go to the [MongoDB Compass Download Page](https://www.mongodb.com/try/download/compass).
+2. Select your operating system and download the installer.
+3. Run the installer and follow the instructions to complete installation.
+
+---
+
+## 🔗 2. Create a New Connection
+
+### For a Local MongoDB Server:
+
+- Use the default connection string: mongodb://localhost:27017
+
+
 ## Environment Variable
 
 Create a .env file in the root directory of the project (same level as package.json). Add the following environment variables to the file:
