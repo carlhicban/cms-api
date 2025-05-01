@@ -23,6 +23,11 @@ export class ContactController{
         return this._contactService.getContacts()
     }
 
+    @Get('search')
+    async searchContacts(@Query() query: SearchContactsDto) {
+      return this._contactService.searchContacts(query);
+    }
+
     @Get(":id")
     getContact(@Param('id') id:string){
         return this._contactService.getContact(id)
@@ -46,8 +51,4 @@ export class ContactController{
         return this._contactService.updateContact(id, body)
     }
 
-    @Get('search')
-    async searchContacts(@Query() query: SearchContactsDto) {
-      return this._contactService.searchContacts(query);
-    }
 }
