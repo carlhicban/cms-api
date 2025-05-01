@@ -23,6 +23,11 @@ export class ContactController{
         return this._contactService.getContacts()
     }
 
+    @Get(":id")
+    getContact(@Param('id') id:string){
+        return this._contactService.getContact(id)
+    }
+
     @Delete(":id")
     async deleteContact(@Param('id') id:string){
         const isValid = mongoose.Types.ObjectId.isValid(id)

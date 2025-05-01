@@ -23,6 +23,11 @@ export class ContactService{
         return contacts
     }
 
+    getContact(id: string){
+      const contact = this.contactModel.findById(id);
+      return contact
+    }
+
     deleteContact(id: string){
         return this.contactModel.findByIdAndDelete(id);
     }
